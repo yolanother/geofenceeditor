@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".GeofenceEditorActivity" >
+
+    <requestFocus />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/whitebox"
+        android:ems="10"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="36dp"
+        android:paddingTop="5dp"
+        android:singleLine="true" >
+    </EditText>
+
+    <ImageView
+        android:id="@+id/go"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/address"
+        android:layout_alignRight="@+id/address"
+        android:layout_alignTop="@+id/address"
+        android:src="@drawable/ic_action_go" />
+
+    <SeekBar
+        android:id="@+id/radius"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="15dp"
+        android:enabled="false" />
+
+    <FrameLayout
+        android:id="@+id/error_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:visibility="gone" />
+
+</RelativeLayout>
