@@ -15,6 +15,7 @@ import android.content.SharedPreferences.Editor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.ActionMode.Callback;
@@ -74,6 +75,16 @@ public class GeofenceEditorActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_geofence_editor);
+        
+        if(Build.VERSION.SDK_INT >= 19) {
+	        getWindow().getDecorView().setSystemUiVisibility(
+	                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+	              | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+	              | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+	              | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+	              | View.SYSTEM_UI_FLAG_FULLSCREEN
+	              | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        }
         
         int code = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         if(ConnectionResult.SUCCESS != code) {
@@ -267,36 +278,64 @@ public class GeofenceEditorActivity extends Activity {
     	mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoom));
     	
     	if(Actions.CREATE_GEOFENCE.equals(intent.getAction())) {
-    		startActionMode(new Callback() {
-				
-				@Override
-				public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-					// TODO Auto-generated method stub
-					return false;
-				}
-				
-				@Override
-				public void onDestroyActionMode(ActionMode mode) {
-					if(null != mFence) {
-						Intent intent = new Intent();
-						mFence.fillIntent(intent);
-						setResult(RESULT_OK, intent);
-					} else {
-						setResult(RESULT_CANCELED);
-					}
-					finish();
-				}
-				
-				@Override
-				public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+
+            if(Build.VERSION.SDK_INT < 19) {
+	    		startActionMode(new Callback() {
 					
-					return true;
-				}
-				
-				@Override
-				public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-					// TODO Auto-generated method stub
-					return false;
+					@Override
+					public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+						// TODO Auto-generated method stub
+						return false;
+					}
+					
+					@Override
+					public void onDestroyActionMode(ActionMode mode) {
+						if(null != mFence) {
+							Intent intent = new Intent();
+							mFence.fillIntent(intent);
+							setResult(RESULT_OK, intent);
+						} else {
+							setResult(RESULT_CANCELED);
+						}
+						finish();
+					}
+					
+					@Override
+					public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+						
+						return true;
+					}
+					
+					@Override
+					public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+						// TODO Auto-generated method stub
+						return false;
+					}
+				});
+            } else {
+            	findViewById(R.id.ok).setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						if(null != mFence) {
+							Intent intent = new Intent();
+							mFence.fillIntent(intent);
+							setResult(RESULT_OK, intent);
+						} else {
+							setResult(RESULT_CANCELED);
+						}
+						finish();
+					}
+				});
+            }
+
+        	mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        	findViewById(R.id.my_location).setOnClickListener(new OnClickListener() {
+        		@Override
+				public void onClick(View v) {
+					Location location = mMap.getMyLocation();
+					LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+					mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 				}
 			});
     	}
