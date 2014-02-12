@@ -22,18 +22,18 @@ import android.content.Intent;
  * A single Geofence object, defined by its center (latitude and longitude position) and radius.
  */
 public class SimpleGeofence {
-	public static final String EXTRA_TRANSITION_TYPE = "transitionType";
-	public static final String EXTRA_EXPIRATION = "expiration";
-	public static final String EXTRA_RADIUS = "radius";
-	public static final String EXTRA_LONGITUDE = "longitude";
-	public static final String EXTRA_LATITUDE = "latitude";
-	public static final String EXTRA_ID = "id";
-	public static final String EXTRA_NAME = "name";
+    public static final String EXTRA_TRANSITION_TYPE = "transitionType";
+    public static final String EXTRA_EXPIRATION = "expiration";
+    public static final String EXTRA_RADIUS = "radius";
+    public static final String EXTRA_LONGITUDE = "longitude";
+    public static final String EXTRA_LATITUDE = "latitude";
+    public static final String EXTRA_ID = "id";
+    public static final String EXTRA_NAME = "name";
 
-	public static final int GEOFENCE_TRANSITION_ENTER = 1;
-	public static final int GEOFENCE_TRANSITION_EXIT = 2;
-	public static final int GEOFENCE_TRANSITION_DWELL = 4;
-	public static final long NEVER_EXPIRE = -1L;
+    public static final int GEOFENCE_TRANSITION_ENTER = 1;
+    public static final int GEOFENCE_TRANSITION_EXIT = 2;
+    public static final int GEOFENCE_TRANSITION_DWELL = 4;
+    public static final long NEVER_EXPIRE = -1L;
 
     // Instance variables
     private String mId;
@@ -80,10 +80,10 @@ public class SimpleGeofence {
     }
 
     private SimpleGeofence() {
-		
-	}
 
-	// Instance field getters
+    }
+
+    // Instance field getters
 
     /**
      * Get the geofence ID
@@ -116,22 +116,22 @@ public class SimpleGeofence {
     public float getRadius() {
         return mRadius;
     }
-    
+
     /**
      * Get the name of the geofence
      * @return A name representing this geofence
      */
     public String getName() {
-		return mName;
-	}
-    
+        return mName;
+    }
+
     /**
      * Set the name of the geofence
      * @param name A name representing this geofence
      */
     public void setName(String name) {
-		this.mName = name;
-	}
+        this.mName = name;
+    }
 
     /**
      * Get the geofence expiration duration
@@ -154,76 +154,76 @@ public class SimpleGeofence {
      * @return Transition type converted to a string (see Geofence)
      */
     public String getTransitionTypeString() {
-    	return transitionTypeToString(mTransitionType);
+        return transitionTypeToString(mTransitionType);
     }
 
-	public void fillIntent(Intent intent) {
-		intent.putExtra(EXTRA_ID, mId);
-		intent.putExtra(EXTRA_NAME, mName);
-		intent.putExtra(EXTRA_LATITUDE, mLatitude);
-		intent.putExtra(EXTRA_LONGITUDE, mLongitude);
-		intent.putExtra(EXTRA_RADIUS, mRadius);
-		intent.putExtra(EXTRA_EXPIRATION, mExpirationDuration);
-		intent.putExtra(EXTRA_TRANSITION_TYPE, mTransitionType);
-	}
+    public void fillIntent(Intent intent) {
+        intent.putExtra(EXTRA_ID, mId);
+        intent.putExtra(EXTRA_NAME, mName);
+        intent.putExtra(EXTRA_LATITUDE, mLatitude);
+        intent.putExtra(EXTRA_LONGITUDE, mLongitude);
+        intent.putExtra(EXTRA_RADIUS, mRadius);
+        intent.putExtra(EXTRA_EXPIRATION, mExpirationDuration);
+        intent.putExtra(EXTRA_TRANSITION_TYPE, mTransitionType);
+    }
 
-	public static SimpleGeofence fromIntent(Intent intent) {
-		// Check for required parameters
-		if(!intent.hasExtra(EXTRA_ID) ||
-				!intent.hasExtra(EXTRA_LATITUDE) ||
-				!intent.hasExtra(EXTRA_LONGITUDE) ||
-				!intent.hasExtra(EXTRA_RADIUS) ||
-				!intent.hasExtra(EXTRA_EXPIRATION) ||
-				!intent.hasExtra(EXTRA_TRANSITION_TYPE)) {
-			return null;
-		}
-		SimpleGeofence geofence = new SimpleGeofence();
-		geofence.mId = intent.getStringExtra(EXTRA_ID);
-		geofence.mName = intent.getStringExtra(EXTRA_NAME);
-		geofence.mLatitude = intent.getDoubleExtra(EXTRA_LATITUDE, 0);
-		geofence.mLongitude = intent.getDoubleExtra(EXTRA_LONGITUDE, 0);
-		geofence.mRadius = intent.getFloatExtra(EXTRA_RADIUS, 100);
-	    geofence.mExpirationDuration = intent.getLongExtra(EXTRA_EXPIRATION, NEVER_EXPIRE);
-	    geofence.mTransitionType = intent.getIntExtra(EXTRA_TRANSITION_TYPE, GEOFENCE_TRANSITION_DWELL);
-	    return geofence;
-	}
-	
-	public static String transitionTypeToString(int transitionType) {
-		String transition = "";
-		
-		if((GEOFENCE_TRANSITION_EXIT & transitionType) > 0) {
-			transition += "exit";
-		}
-		
-		if((GEOFENCE_TRANSITION_DWELL & transitionType) > 0) {
-			if(transition.length() > 0) {
-				transition += "|";
-			}
-			transition += "dwell";
-		}
-		
-		if((GEOFENCE_TRANSITION_ENTER & transitionType) > 0) {
-			if(transition.length() > 0) {
-				transition += "|";
-			}
-			transition += "enter";
-		}
-		return transition;
-	}
+    public static SimpleGeofence fromIntent(Intent intent) {
+        // Check for required parameters
+        if (!intent.hasExtra(EXTRA_ID) ||
+                !intent.hasExtra(EXTRA_LATITUDE) ||
+                !intent.hasExtra(EXTRA_LONGITUDE) ||
+                !intent.hasExtra(EXTRA_RADIUS) ||
+                !intent.hasExtra(EXTRA_EXPIRATION) ||
+                !intent.hasExtra(EXTRA_TRANSITION_TYPE)) {
+            return null;
+        }
+        SimpleGeofence geofence = new SimpleGeofence();
+        geofence.mId = intent.getStringExtra(EXTRA_ID);
+        geofence.mName = intent.getStringExtra(EXTRA_NAME);
+        geofence.mLatitude = intent.getDoubleExtra(EXTRA_LATITUDE, 0);
+        geofence.mLongitude = intent.getDoubleExtra(EXTRA_LONGITUDE, 0);
+        geofence.mRadius = intent.getFloatExtra(EXTRA_RADIUS, 100);
+        geofence.mExpirationDuration = intent.getLongExtra(EXTRA_EXPIRATION, NEVER_EXPIRE);
+        geofence.mTransitionType = intent.getIntExtra(EXTRA_TRANSITION_TYPE, GEOFENCE_TRANSITION_DWELL);
+        return geofence;
+    }
 
-	public static int transitionTypeFromString(String transitionType) {
-		if(null == transitionType) return 0;
-		int transition = 0;
-	
-		for(String t : transitionType.split("|")) {
-			if("exit".equals(transitionType)) {
-				transition |= GEOFENCE_TRANSITION_EXIT;
-			} else if("dwell".equals(transitionType)) {
-				transition |= GEOFENCE_TRANSITION_DWELL;
-			} else if("enter".equals(transitionType)) {
-				transition |= GEOFENCE_TRANSITION_ENTER;
-			} 
-		}
-		return transition;
-	}
+    public static String transitionTypeToString(int transitionType) {
+        String transition = "";
+
+        if ((GEOFENCE_TRANSITION_EXIT & transitionType) > 0) {
+            transition += "exit";
+        }
+
+        if ((GEOFENCE_TRANSITION_DWELL & transitionType) > 0) {
+            if (transition.length() > 0) {
+                transition += "|";
+            }
+            transition += "dwell";
+        }
+
+        if ((GEOFENCE_TRANSITION_ENTER & transitionType) > 0) {
+            if (transition.length() > 0) {
+                transition += "|";
+            }
+            transition += "enter";
+        }
+        return transition;
+    }
+
+    public static int transitionTypeFromString(String transitionType) {
+        if (null == transitionType) return 0;
+        int transition = 0;
+
+        for (String t : transitionType.split("|")) {
+            if ("exit".equals(transitionType)) {
+                transition |= GEOFENCE_TRANSITION_EXIT;
+            } else if ("dwell".equals(transitionType)) {
+                transition |= GEOFENCE_TRANSITION_DWELL;
+            } else if ("enter".equals(transitionType)) {
+                transition |= GEOFENCE_TRANSITION_ENTER;
+            }
+        }
+        return transition;
+    }
 }
